@@ -31,6 +31,7 @@ RUN sed -i -e "s/;cgi.fix_pathinfo=1/cgi.fix_pathinfo=0/g" /etc/php5/fpm/php.ini
 RUN sed -i -e "s/upload_max_filesize\s*=\s*2M/upload_max_filesize = 1G/g" /etc/php5/fpm/php.ini
 RUN sed -i -e "s/post_max_size\s*=\s*8M/post_max_size = 1G/g" /etc/php5/fpm/php.ini
 RUN sed -i -e "s:;\s*session.save_path\s*=\s*\"N;/path\":session.save_path = /tmp:g" /etc/php5/fpm/php.ini
+RUN sed -i -e "s/;daemonize = yes/daemonize = no/g" /etc/php5/fpm/php-fpm.conf
 RUN chown -R www-data:www-data /tmp
 RUN php5enmod mcrypt
 
@@ -52,7 +53,10 @@ WORKDIR /var/www
 RUN git clone https://github.com/electerious/Lychee.git lychee
 RUN chown -R www-data:www-data /var/www/lychee
 RUN chmod -R 770 /var/www/lychee
+
+RUN mkdir /var/www/lychee/uploads/big /var/www/lychee/uploads/medium /var/www/lychee/uploads/thumb
 RUN chmod -R 777 /var/www/lychee/uploads/ 
+
 RUN chmod -R 777 /var/www/lychee/data/
 
 # ------------------------------------------------------------------------------
